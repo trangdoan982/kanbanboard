@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style> 
+    section {  
+        background-color:white;
+        padding: 1px;
+        text-align: center;
+        color: black;
+    }
+    li {
+    list-style-type: none;
+    width: 250px;
+    }
+    body {  
+        background-color: white;
+        padding: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        color: black;}
+    h2 {
+        margin:5px;
+    }
+    .container {
+        width: 31.7%; 
+        float:left;
+        clear: right;
+        margin:10px; 
+        border-radius: 5px;
+    }
+    
+    .card{
+      border-radius:5px;
+      padding: 8px;
+      margin: 8px;
+    }
+    .title {
+      background-color: white;
+      padding: 8px;
+      margin: 8px;
+      border-radius: 5px;
+    }
+  </style>
+  <title>Kanban Board</title>
+ </head>
+  <body>
+<h1> Get Productive with Kanban Board</h1>
+<br>
+
+<h2 align="center">What are you doing next? </h2>
+    <form method="POST" action="/">
+      <input type="text" name="title" required>
+      <!-- <input type="hidden" value="Evgeny" name="user_id"> -->
+    <select name="status">
+    <option> todo </option>
+    <option> doing </option>
+    <option> done</option>
+  </select>
+      <!-- <input type="text" name="status"> -->
+      <input type="submit" value="Add">
+    </form>
+    <p></p>
+
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}
+  {% endif %}
+    <p></p>
+    <section>
+    <div>
+    <div class="container" style="background-color: red;">
+    <h2 style="color:#FFFFFF">TO DO</h2>
+
+    {% for task in todo %}
+      <div class = 'card'>
+        <span class = "title" width = 31>{{task.title}} </span>
+        <form method="POST" action="./update" style="display: inline">
+            <input type="hidden" value="{{task.title}}" name="name">
+            <input type="hidden" value="doing" name="newstatus">
+            <!-- <form method="POST" action="./delete" style="display: inline"> -->
+            <input type="submit" value="&#9989">
+        </form>
+        <form method="POST" action="./delete" style="display: inline">
+            <input type="hidden" value="{{task.title}}" name="title">
+            <input type="submit" value="&#10006">
+        </form>
+      </div>
+    
+    {% endfor %}
+
+  </div>
+  <div class="container" style="background-color: rgb(179, 148, 13);">
+  <h2 style="color:#FFFFFF">DOING</h2>
+  {% for task in doing %}
+    <div class = 'card'>
+        <span class = "title" width = 31>{{task.title}} </span>
+        <form method="POST" action="./update" style="display: inline">
+            <input type="hidden" value="{{task.title}}" name="name">
+            <input type="hidden" value="done" name="newstatus">
+            <!-- <form method="POST" action="./delete" style="display: inline"> -->
+            <input type="submit" value="&#9989">
+        </form>
+        <form method="POST" action="./delete" style="display: inline">
+            <input type="hidden" value="{{task.title}}" name="title">
+            <input type="submit" value="&#10006">
+        </form>
+      </div>
+      {% endfor %}
+  </div>
+
+  <div class="container" style="background-color: green;">
+    <h2 style="color:#FFFFFF">DONE</h2>
+    {% for task in done %}
+      <div class = 'card'>
+          <span class = "title" width = 31>{{task.title}} </span>
+
+          <form method="POST" action="./delete" style="display: inline">
+              <input type="hidden" value="{{task.title}}" name="title">
+              <input type="submit" value="&#10006">
+          </form>
+        </div>
+        {% endfor %}
+  </div>
+  </div>
+  </section>
+  </body>
+</html>
